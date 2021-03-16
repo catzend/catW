@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>while案例</title>
+</head>
+<body>
+
+</body>
+<script>
+  // 寻找满足n的平方大于456789的最小整数
+  var n = 1;
+  while (n * n <= 456789) {
+    n++;
+  }
+  console.log(n);
+
+  // ****************************************************
+  // 小兔子拔萝卜，第1天拔1个，第2天拔2个，第3天拔3个……
+  // 问：第几天能拔光500个萝卜？
+  var num = 1;
+  var sum = 0;
+  while(sum<=500){
+    sum+=num;
+    num++;
+  }
+
+console.log(num);
+console.log(sum);
+
+</script>
+</html>

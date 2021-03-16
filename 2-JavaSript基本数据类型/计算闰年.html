@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算闰年</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+        // 根据两个条件进行判断（满足这两个条件中的一个，就是闰年）：
+        // ① 能被4整除，且不能被100整除
+        // ② 能被100整除，且能被400整除
+        while(true){
+          var year = parseInt(prompt("请输入年份??"));
+          if((year%4 == 0 && year%100!=0)||(year%100==0&&year%400==0)){
+            alert(year+"是闰年");
+            console.log(1);
+          }else{
+            console.log(2);
+            alert(year+"不是闰年");
+          }
+        }
+</script>

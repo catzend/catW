@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>猜数字游戏</title>
+</head>
+<body>
+  <input type="text" name="" id="val">
+</body>
+</html>
+<script>
+  var oInp = document.getElementById("val");
+  var answer = parseInt(Math.random() * 100)
+  var min = 0;
+  var max = 100;
+  console.log(answer);
+  function functionName(val) {
+    if (answer != val) {
+      // 验证用户输入的数字是否在范围内
+      if (val > max || val < min) {
+        console.log("您输入的数字不在范围内!!!");
+
+      }
+      // 判断用户输入的数字和answer的关系
+      if (val > answer) {
+        console.log('你输入的数字太大了');
+        // 因为用户输入的数字较大，所以可以让此时的最大范围数字变为用户输入的值
+        max = val;
+      } else if (val < answer) {
+        console.log('你输入的数字太小了');
+        // 因为用户输入的数字较小，所以可以让此时的最小范围数字变为用户输入的值
+        min = val;
+
+      }
+    }
+
+  }
+  oInp.onblur = function () {
+    var val = oInp.value;
+    console.log(val);
+    functionName(val);
+  }
+</script>
