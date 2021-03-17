@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>递归整理好的数据</title>
+</head>
+<body>
+  <div id="box">
+
+  </div>
+</body>
+</html>
+<script>
+
+  window.onload = function () {
+    var json = [
+      {
+        id: 1, name: "办公管理", pid: 0,
+        children: [
+          {
+            id: 2, name: "请假申请", pid: 1,
+            children: [
+              { id: 4, name: "请假记录", pid: 2 },
+            ],
+          },
+          { id: 3, name: "出差申请", pid: 1 },
+        ]
+      },
+      {
+        id: 5, name: "系统设置", pid: 0,
+        children: [
+          {
+            id: 6, name: "权限管理", pid: 5,
+            children: [
+              { id: 7, name: "用户角色", pid: 6 },
+              { id: 8, name: "菜单设置", pid: 6 },
+            ]
+          },
+        ]
+      },
+    ];
+    function fo(json) {
+      var menu;
+      menu += "<ul>";
+      for (var i = 0; i < json.length; i++) {
+        if (json[i].children) {
+          menu += "<li>" + json[i].name + "</li>";
+          menu += fo(json[i].children)
+        }
+      }
+      menu += "<//ul>"
+      return menu;
+    }
+
+    var box = document.getElementById("box");
+    box.innerHTML=fo(json)
+
+
+
+
+
+
+
+  }
+
+
+
+</script>

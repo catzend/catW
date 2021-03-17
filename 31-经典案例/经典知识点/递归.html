@@ -11,6 +11,112 @@
 </body>
 <script>
 
-    //递归就是自己调用自己
+  //递归就是自己调用自己
+  // 理解递归代码，就把它抽象成一个递推公式，
+  // 不用想一层层的调用关系，不要试图用人脑去分解递归的每个步骤。
+  // 1.方法或函数调用自身的方式称为递归调用，调用称为递，返回称为归。
+  // 简单来说就是：自己调用自己。
+  // 2.基本上，所有的递归问题都可以用递推公式来表示，比如:
+  // f(n) = f(n - 1) + 1;
+  // 其中，f(1) = 1
+  //了这个递推公式，我们就可以很轻松地将它改为递归代码，如下：
+  // function f(n) {
+  //   if (n == 1) return 1;
+  //   return f(n-1) + 1;
+  // }
+  // 3.递归的优缺点 ？
+  // 优点：代码的表达力很强，写起来简洁。
+  // 缺点：空间复杂度高、有堆栈溢出风险、存在重复计算、过多的函数调用会耗时较多等问题。
+  // 4. 什么样的问题可以用递归解决呢 ？
+  // 4.1问题的解可以分解为几个子问题的解。何为子问题 ？就是数据规模更小的问题。
+  // 比如，前面讲的电影院的例子，你要知道，
+  // 自己在哪一排的问题，可以分解为前一排的人在哪一排这样一个子问题。
+  // 4.2问题与子问题，除了数据规模不同，求解思路完全一样
+  // 比如电影院那个例子，你求解自己在哪一排的思路，
+  // 和前面一排人求解自己在哪一排的思路，是一模一样的。
+  // 4.3存在递归终止条件 比如电影院的例子，第一排的人不需要再继续询问任何人，
+  // 就知道自己在哪一排，也就是 f(1) = 1，这就是递归的终止条件。
+
+
+  // 案例一:阶乘
+  function fact(num) {
+    // 终止条件
+    if (num <= 1) return 1;
+    return num * fact(num - 1)
+  }
+  var facts = fact;
+  console.log(facts(6));
+  // 解决堆栈溢出
+  facts = null;
+  // 使用 arguments.callee
+  // arguments.callee 是一个指向正在执行的函数的指针，
+  // arguments.callee 返回正在被执行的对现象。新的函数为：
+  function fa(num) {
+    // 终止条件
+    if (num <= 1) return 1;
+    return num * arguments.callee(num - 1);
+  }
+  var anotherFact = fa;
+  fa = null;
+  console.log(anotherFact(4));
+  // 解决堆栈溢出
+  facts = null;
+  // 案例二.多叉树的例子
+  let json = {
+    name: 'A',
+    children: [
+      {
+        name: 'B',
+        children: [
+          {
+            name: 'E',
+          },
+          {
+            name: 'F',
+          },
+          {
+            name: 'G',
+          }
+        ]
+      },
+      {
+        name: 'C',
+        children: [
+          {
+            name: 'H'
+          }
+        ]
+      },
+      {
+        name: 'D',
+        children: [
+          {
+            name: 'I',
+          },
+          {
+            name: 'J',
+          }
+        ]
+      }
+    ]
+  };
+
+  function getJson(json) {
+    if (!json.children) {
+      return 1;
+    } else {
+      // let leafCount = 0;
+      // for(let i = 0 ; i < json.children.length ; i++){
+      //     // leafCount = leafCount + getLeafCountTree(json.children[i]);
+      //     leafCount = leafCount + arguments.callee(json.children[i]);
+      // }
+      // return leafCount;
+      // for (var i = 0; i < json.children.length; i++) {
+      //   return
+      // }
+      return json.children.length;
+    }
+  };
+  console.log(getJson(json));
 </script>
 </html>
