@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>冒泡排序</title>
+</head>
+<body>
+
+</body>
+<script>
+  // 冒泡排序
+  var arr = [5,4,2,7,3,2,1];
+  // 定义一个temp变量,用来作为变量交换的中间量
+  var temp;
+  // 定义长度
+  var len = arr.length;
+  // 外层是确定循环的总次数
+  for (var i = 0; i < len; i++) {
+    // 第二个循环是比较两个相邻元素,确定位置
+    for (var j = 0; j < len-i; j++) {
+      if(arr[j]>arr[j+1]){
+        // temp = arr[j];
+        // arr[j] = arr[j+1];
+        // arr[j+1] = temp;
+        [arr[j],arr[j+1]] = [arr[j+1],arr[j]]
+      }
+    }
+  }
+  console.log(arr);
+</script>
+</html>
