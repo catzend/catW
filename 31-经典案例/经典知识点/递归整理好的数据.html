@@ -42,20 +42,19 @@
       },
     ];
     function fo(json) {
-      var menu;
-      menu += "<ul>";
+      var menu = "<ul>";
       for (var i = 0; i < json.length; i++) {
+        menu += "<li>" + json[i].name + "</li>";
         if (json[i].children) {
-          menu += "<li>" + json[i].name + "</li>";
           menu += fo(json[i].children)
         }
       }
-      menu += "<//ul>"
+      menu += "</ul>"
       return menu;
     }
 
     var box = document.getElementById("box");
-    box.innerHTML=fo(json)
+    box.innerHTML = fo(json)
 
 
 
