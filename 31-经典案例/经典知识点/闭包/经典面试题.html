@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>经典面试题</title>
+</head>
+<body>
+
+</body>
+<script>
+// for 循环和闭包(号称必刷题)
+var data = [];
+
+for (var i = 0; i < 3; i++) {
+  data[i] = function () {
+    console.log(i);
+  };
+//  console.log(data[i]);
+}
+// 这里的 i 是全局下的 i，共用一个作用域，当函数被执行的时候这时的 i=3，导致输出的结构都是3。
+// data[0]();
+// data[1]();
+// data[2]()
+var datas = [];
+
+for (let i = 0; i < 3; i++) {
+  datas[i] = function () {
+    console.log(i);
+  };
+//  console.log(data[i]);
+}
+datas[0]();
+datas[1]();
+datas[2]()
+//
+</script>
+</html>

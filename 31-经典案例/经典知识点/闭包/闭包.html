@@ -11,24 +11,93 @@
 </body>
 </html>
 <script>
+  // 1.概念
+  // 1.1闭包函数:声明一个函数中的函数,叫做闭包函数
+  // 1.2闭包:内部函数总是可以访问其所在的外部函数中声明的参数和变量,
+  // 1.3闭包就是一种阻止垃圾回收器将变量从内存中移除的方法，使创建变量的执行环境外面可以访问到该创建的变量。
+  // 即使在其外部函数被返回(寿命终结)了之后
+  // 2.特点
+  // 2.1让外部访问函数内部变量成为可能
+  // 2.2局部变量会常驻在内存中
+  // 2.3可以避免使用全局变量,防止全局变量污染;
+  // 2.4会造成内存泄漏(有一块内存空间被长期用,而不被释放)
+  // 3.闭包的创建
+  // 闭包就是可以创建一个独立的环境，
+  // 每个闭包里面的环境都是独立的，互不干扰。
+  // 闭包会发生内存泄漏，每次外部函数执行的时候，外部函数的引用地址不同，都会创建一个新的地址。但凡是当前活动对象中有被内部子集引用的数据，那么这个时候，
+  // 这个数据不删除，
+  // 保留一根指针给内部活动对象。
 
-function foo() {
-    var myName = "IE";
-    let test1 = 1;
-    const test2 = 2;
-    var innerBar = {
-        getName:function(){
-            console.log(test1);
-            return myName;
-        },
-        setName:function(newName){
-            myName = newName;
-        }
+  // 使用场景
+  // 函数表达式
+  function package() {
+    const num = 123;
+    const color = 'red'
+    return {
+      start: function () {
+        console.log(num);
+      },
+      color: function () {
+        console.log(color);
+      }
     }
-    return innerBar;
-}
-var bar = foo();
-bar.setName("Chrome");
-bar.getName();
-console.log(bar.getName());
+  };
+  let car = package();
+  car.start();
+  // 给 params 赋值一个对象，而这个对象就
+  // 是通过调用一次立即执行，返回的一个对象，再将这个对象存在变量中。
+
+  let params = (function package() {
+    const num = 123;
+    const color = 'red'
+    return {
+      start: function () {
+        console.log(num);
+      },
+      color: function () {
+        console.log(color);
+      }
+    }
+  })()
+  params.start();
+
+  // 2.创建私有变量
+
+  let params = (function test() {
+    function a() {
+      const num = 123;
+      return num;
+    };
+    function b() {
+      const color = 'red'
+      return color;
+    };
+    return {
+      a: a,
+      b: b
+    }
+  })();
+  console.log(params.a());
+  //123
+
+  // 3.代码模块化减少污染
+  let num = 3;
+  let params = (function test() {
+    const num = 6;
+    return {
+      start: () => num * 2,
+    }
+  })();
+  console.log(params.start());
+  // 12num 这个参数是会优先取函数内部的数据，再执行。
+
+
+  //闭包的内存泄漏
+
+  function fn() {
+    var num = 100;
+    return function () {
+    }
+  }
+  var f = fn();//fn执行形成的这个私有的作用域就不能再销毁了
 </script>

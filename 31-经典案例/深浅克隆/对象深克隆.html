@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>深克隆</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+  var obj = {
+    sname: "张三",
+    sage: 20,
+    address: {
+      city: "武汉",
+      street: "洪山区"
+    }
+  }
+
+  function clone2(oldObj) {
+    var newObj = Array.isArray(oldObj) ? [] : {};
+    for (var key in oldObj) {
+      if (typeof oldObj[key] !== "object") {
+        newObj[key] = oldObj[key]
+      } else {
+        newObj[key] = clone2(oldObj[key])
+      }
+    }
+    return newObj;
+  }
+  var obj2 = clone2(obj);
+  console.log(obj, obj2);
+  console.log(obj === obj2); //false
+  obj2.sname = "李四"
+  obj2.address.city = "北京";
+  console.log(obj.sname); //还是张三，原对象没变
+  console.log(obj.address.city); //还是武汉,原对象没变
+</script>

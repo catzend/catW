@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数组浅克隆</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+  // 浅度克隆：原始类型为值传递，对象类型仍为引用传递。
+  // 深度克隆：所有元素或属性均完全复制，与原对象完全脱离，也就是说所有对于新对象的修改都不会反映到原对象中。
+  // 为什么分深浅克隆：
+  // JavaScript里面的数据存储分为两种：
+
+  // 简单数据类型：存储在栈里面
+  // 复杂数据类型：地址存在栈里面，数据存储在堆里面 而复杂粘贴是在操作栈里面的数据
+  var obj = {
+    sname: "张三",
+    sage: 20,
+    address: {
+      city: "武汉",
+      street: "洪山区"
+    }
+  }
+
+  function clone(oldObj) {
+    if (oldObj == null) { return null };
+    if (typeof oldObj !== "Object") { return oldObj }
+    var newObj = Array.isArray(oldObj) ? [] : {};
+    for (var key in oldObj) {
+      newObj[key] = oldObj[key]
+    }
+    return newObj;
+  }
+  // var objs = clone(obj);
+  // console.log(obj === objs) //true
+  // console.log(obj);//obj
+  // console.log(objs);//obj
+  // objs.sname = "李四";
+  // console.log(obj.sname); //李四
+  // objs.address.city = "北京";
+  // console.log(obj.address.city); //北京很明显原对象的属性值已被修改
+  var a = 1;
+  var b = a;
+  b = 2
+  console.log(a);
+  var person = { name: "Jason", age: 18, car: { brand: "Ferrari", type: "430" } };
+
+  var person1 = person; //他们认为这是浅拷贝
+  person1.name = "Nike";
+  console.log(person);
+  var arr1 = [1,2,3,4,5];
+  var arr2 = arr1;
+  arr2[0]=6;
+  console.log(arr1);
+</script>
