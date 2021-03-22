@@ -6,13 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>获取各个位置属性</title>
   <style>
-    #box{
+    #box {
       width: 350px;
       height: 200px;
       margin: 10px 20px 30px 40px;
       padding: 3px 6px 9px 12px;
       background-color: plum;
       border: 5px solid black;
+    }
+    #list li{
+      list-style: none;
     }
   </style>
 
@@ -32,15 +35,15 @@
   * offsetTop 获取当前元素到 定位父节点 的top方向的距离
   * offsetLeft 获取当前元素到 定位父节点 的left方向的距离 -->
   <div id="box"> 123 </div>
-</body>
-</html>
-<!-- 2、Window视图属性 -->
+
+
+  <!-- 2、Window视图属性
 * innerWidth 浏览器窗口可视区宽度（不包括浏览器控制台、菜单栏、工具栏、滚动条）
 * innerHeight 浏览器窗口可视区高度（不包括浏览器控制台、菜单栏、工具栏、滚动条）
 * outerWidth 浏览器窗口可视区宽度（包括浏览器控制台、菜单栏、工具栏、滚动条）
 * outerHeight 浏览器窗口可视区高度（包括浏览器控制台、菜单栏、工具栏、滚动条）
 
-<!-- 3、Document文档视图属性 -->
+ 3、Document文档视图属性
  * document.documentElement.clientWidth 浏览器窗口可视区宽度（不包括浏览器控制台、菜单栏、工具栏、滚动条）
  * document.documentElement.clientHeight 浏览器窗口可视区高度（不包括浏览器控制台、菜单栏、工具栏、滚动条）
  *
@@ -48,9 +51,9 @@
  * document.body.offsetHeight 获取整个文档的高度（不包含body的margin）
  *
  * document.documentElement.scrollTop 返回文档的滚动top方向的距离（当窗口发生滚动时值改变）
- * document.documentElement.scrollLeft 返回文档的滚动left方向的距离（当窗口发生滚动时值改变）
-<!-- 4、元素方法 -->
-* 1. getBoundingClientRect() 获取元素到body
+ * document.documentElement.scrollLeft 返回文档的滚动left方向的距离（当窗口发生滚动时值改变） -->
+  <!-- 4、元素方法 -->
+  <!-- * 1. getBoundingClientRect() 获取元素到body
  *  bottom: 元素底边（包括border）到可视区最顶部的距离
  *  left: 元素最左边（不包括border）到可视区最左边的距离
  *  right: 元素最右边（包括border）到可视区最左边的距离
@@ -60,8 +63,8 @@
  *  x: 元素左上角的x坐标
  *  y: 元素左上角的y坐标
  *
- * 2. scrollIntoView() 让元素滚动到可视区
-
+ * 2. scrollIntoView() 让元素滚动到可视区 -->
+  <!--
 网页可见区域宽：document.body.clientWidth(不包括边线)
 网页可见区域高：document.body.clientHeight(不包括边线)
 网页可见区域宽：document.body.offsetWidth (包括边线)
@@ -75,4 +78,30 @@
 屏幕分辨率的高：window.screen.height
 屏幕分辨率的宽：window.screen.width
 屏幕可用工作区高度：window.screen.availHeight
-屏幕可用工作区宽度：window.screen.availWidth -->
+屏幕可用工作区宽度：window.screen.availWidth  -->
+<ul id="list"></ul>
+</body>
+</html>
+<script>
+  var oBox = document.getElementById("box");
+  var oUl = document.getElementById("list");
+  // console.log(oBox.offsetHeight);
+  // console.log(oBox.offsetWidth);
+  // console.log(oBox.offsetTop);
+  // console.log(oBox.offsetLeft);
+  // console.log(oBox.clientWidth);
+  // console.log(oBox.clientHeight);
+  document.body.onclick = function () {
+    var event = window.event || event;
+    var pageX = event.clientX;
+    var pageY = event.clientY;
+    var str="";
+    for (var i = 0; i < 10; i++) {
+      var rand = parseInt(Math.random()*8-4)
+      str+="<li style='left="+(pageX+rand)+'px'+"'>"+i+"</li>"
+    }
+    oUl.innerHTML = str;
+  }
+
+
+</script>

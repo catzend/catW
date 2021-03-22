@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>滚动向上</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 1200px;
+    }
+
+    .top {
+      width: 50px;
+      height: 75px;
+      text-align: center;
+      line-height: 75px;
+      border: 1px solid #ccc;
+      position: absolute;
+      right: 50px;
+      bottom: 100px;
+      background-color: cornflowerblue;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="top" id="top">向上</div>
+</body>
+</html>
+<script>
+  var oTop = document.getElementById("top");
+  window.onscroll = function () {
+    var num = document.documentElement.scrollTop || document.body.scrollTop;
+    if (num > 0) {
+      oTop.style.display = "block";
+    } else {
+      oTop.style.display = "none";
+    }
+  }
+  var timer;
+  oTop.onclick = function () {
+    clearInterval(timer);
+    // 设置定时器
+    timer = setInterval(function () {
+      document.documentElement.scrollTop -= 20;
+      // 定时器肯定要停
+      if(document.documentElement.scrollTop<=0){
+        clearInterval(timer);
+        oTop.style.display = "none";
+      }
+    }, 20)
+  }
+</script>
