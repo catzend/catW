@@ -184,25 +184,25 @@ var eventUntil = {
     oscript.src = url;
     document.body.appendChild(oscript);
   },
-  cookie = {
-    set: function (name, value, time) {
-      document.cookie = name + '=' + value + '; max-age=' + time;
-      return this;
-    },
-    remove: function (name) {
-      return this.setCookie(name, '', -1);
-    },
-    get: function (name, callback) {
-      var allCookieArr = document.cookie.split('; ');
-      for (var i = 0; i < allCookieArr.length; i++) {
-        var itemCookieArr = allCookieArr[i].split('=');
-        if (itemCookieArr[0] === name) {
-          return itemCookieArr[1]
-        }
-      }
-      return undefined;
-    }
-  },
+  // cookie = {
+  //   set: function (name, value, time) {
+  //     document.cookie = name + '=' + value + '; max-age=' + time;
+  //     return this;
+  //   },
+  //   remove: function (name) {
+  //     return this.setCookie(name, '', -1);
+  //   },
+  //   get: function (name, callback) {
+  //     var allCookieArr = document.cookie.split('; ');
+  //     for (var i = 0; i < allCookieArr.length; i++) {
+  //       var itemCookieArr = allCookieArr[i].split('=');
+  //       if (itemCookieArr[0] === name) {
+  //         return itemCookieArr[1]
+  //       }
+  //     }
+  //     return undefined;
+  //   }
+  // },
   // 防抖
   debounce: function (handle, delay) {
     var timer = null;
