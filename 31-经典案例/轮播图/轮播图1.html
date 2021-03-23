@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>轮播图</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .carousel {
+      margin: 100px auto;
+      width: 650px;
+      height: 350px;
+      border: 1px solid #ccc;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel ul {
+      list-style: none;
+      width: 5000px;
+      position: relative;
+      left: 0;
+    }
+
+    .carousel ul li {
+      float: left;
+    }
+
+    .carousel>a {
+      position: absolute;
+      top: 50%;
+      margin-top: -25px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      text-decoration: none;
+      color: white;
+      font-size: 25px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel .left-btn {
+      left: 10px;
+    }
+
+    .carousel .right-btn {
+      right: 10px;
+    }
+
+    .carousel>a:hover {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="carousel">
+    <ul id="list">
+      <li><img src="./images/beijing/0.jpg" alt=""></li>
+      <li><img src="./images/beijing/1.jpg" alt=""></li>
+      <li><img src="./images/beijing/2.jpg" alt=""></li>
+      <li><img src="./images/beijing/3.jpg" alt=""></li>
+      <li><img src="./images/beijing/4.jpg" alt=""></li>
+    </ul>
+    <a href="javascript:;" class="left-btn" id="leftBtn">&lt;</a>
+    <a href="javascript:;" class="right-btn" id="rightBtn">&gt;</a>
+  </div>
+</body>
+</html>
+<script>
+  // 获取需要的元素
+  var list = document.getElementById("list");
+  var leftBtn = document.getElementById("leftBtn");
+  var rightBtn = document.getElementById("rightBtn");
+  var carousel = document.querySelector(".carousel")
+  /**
+   *重点就是新添加
+   */
+  var cloneLi = list.firstElementChild.cloneNode(true);
+  list.append(cloneLi);
+  // 显示第几张图
+  var idx = 0;
+
+  rightBtn.onclick = function () {
+    list.style.transition = "left .5s ease-in 0s";
+    idx++;
+    if (idx > 4) {
+      setTimeout(function () {
+        list.style.transition = "none";
+        list.style.left = -0 * 650 + "px";
+        idx = 0;
+      }, 500)
+    }
+    list.style.left = -idx * 650 + "px";
+  }
+
+  leftBtn.onclick = function () {
+    if (idx == 0) {
+      list.style.transition = "none";
+      list.style.left = -5 * 650 + "px";
+      setTimeout(function () {
+        list.style.transition = "left .5s ease 0s";
+        idx = 4;
+        list.style.left = -5 * 650 + "px";
+      }, 0)
+    } else {
+      idx--;
+      list.style.left = -idx * 650 + "px";
+    }
+  }
+  var timer;
+  var left = 0;
+  // 动画封装成
+  move()
+  function move() {
+    // 清除动画
+    clearInterval(timer);
+    console.log(idx);
+    timer = setInterval(function () {
+      list.style.transition = "left .5s ease-in 0s";
+      idx++;
+      if (idx > 4) {
+        setTimeout(function () {
+          list.style.transition = "none";
+          list.style.left = -0 * 650 + "px";
+          idx = 0;
+        }, 500)
+      }
+      list.style.left = -idx * 650 + "px";
+
+    }, 2000)
+  }
+  carousel.onmouseover=function(){
+    clearInterval(timer)
+  }
+  carousel.onmouseleave=function(){
+    move()
+  }
+</script>

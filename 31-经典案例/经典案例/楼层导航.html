@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>楼层导航</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .floornav {
+      position: fixed;
+      bottom: 200px;
+      right: 50px;
+    }
+
+    .floornav ul {
+      list-style: none;
+    }
+
+    .floornav ul li {
+      border: 1px solid #ccc;
+      width: 100px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      background-color: darksalmon;
+      cursor: pointer;
+    }
+
+    .floornav ul li.current {
+      background-color: blueviolet;
+    }
+
+    .content-part {
+      width: 75%;
+      margin: 0px auto;
+      margin-bottom: 30px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <nav class="floornav">
+    <ul id="list">
+      <li data-n="科技" class="current">科技</li>
+      <li data-n="体育">体育</li>
+      <li data-n="新闻">新闻</li>
+      <li data-n="娱乐">娱乐</li>
+      <li data-n="视频">视频</li>
+    </ul>
+  </nav>
+  <section class="content-part" style="height:674px;" data-n="科技">
+    科技栏目
+  </section>
+
+  <section class="content-part" style="height:567px;" data-n="体育">
+    体育栏目
+  </section>
+
+  <section class="content-part" style="height:739px;" data-n="新闻">
+    新闻栏目
+  </section>
+
+  <section class="content-part" style="height:574px;" data-n="娱乐">
+    娱乐栏目
+  </section>
+
+  <section class="content-part" style="height:1294px;" data-n="视频">
+    视频栏目
+  </section>
+
+</body>
+</html>
+<script>
+  window.addEventListener("load", function () {
+    // 使用事件委托
+    var oUl = document.getElementById("list");
+    var contents = document.querySelectorAll(".content-part");
+    var lists = oUl.querySelectorAll("li");
+    // 事件委托点击事件
+    // oUl.onclick = function () {
+    //   var e = window.event || event;
+
+    // }
+    var result = [];
+    colotArr = ["blue", "aqua", "darksalmon", "darkorange", "green"]
+    for (var i = 0; i < contents.length; i++) {
+      result.push(contents[i].offsetTop);
+      contents[i].style.backgroundColor = colotArr[i]
+    }
+    result.push(Infinity);
+    var num = 0;
+    window.onscroll = function () {
+      var scrollTop = document.documentElement.scrollTop;
+      for (var i = 0; i < result.length; i++) {
+        if (result[i] <= scrollTop && result[i + 1] > scrollTop) {
+          lists[i].className = "current";
+          num = i;
+        } else {
+          lists[i].className = " ";
+        }
+      }
+    }
+    for (let i = 0; i < lists.length; i++) {
+      (function(i){
+        lists[i].onclick = function () {
+        // lists[i].className = "current";
+        for (var j=0; j<lists.length; j++){
+          lists[j].className='';
+        }
+        this.className="current";
+        console.log(i);
+        document.documentElement.scrollTop = result[i];
+      }
+      })(i)
+    }
+
+  })
+</script>

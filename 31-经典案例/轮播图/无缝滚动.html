@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .box {
+      width: 1000px;
+      height: 130px;
+      border: 1px solid #ccc;
+      margin: 50px auto;
+      overflow: hidden;
+    }
+
+    .box ul {
+      width: 5000px;
+      list-style: none;
+      position: relative;
+    }
+
+    .box ul li {
+      float: left;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="box" class="box">
+    <ul id="list">
+      <li><img src="./images/number/0.png" alt=""></li>
+      <li><img src="./images/number/1.png" alt=""></li>
+      <li><img src="./images/number/2.png" alt=""></li>
+      <li><img src="./images/number/3.png" alt=""></li>
+      <li><img src="./images/number/4.png" alt=""></li>
+      <li><img src="./images/number/5.png" alt=""></li>
+    </ul>
+  </div>
+</body>
+</html>
+<script>
+  var oBox = document.getElementById("box");
+  var list = document.getElementById("list");
+  // 复制多一遍所有的li
+  list.innerHTML += list.innerHTML;
+
+  // 全局变量，表示当前list的left值
+  var left = 0;
+
+  // 定时器，全局变量
+  var timer;
+  // 进入就执行
+  move();
+  // 动画封装成函数
+  function move() {
+    // 设表先关，防止动画积累
+    clearInterval(timer);
+
+    timer = setInterval(function () {
+      left -= 4;
+      // 验收
+      if (left <= - 1260) {
+        left = 0;
+      }
+      list.style.left = left + 'px';
+    }, 50);
+  }
+  oBox.onmouseover = function(){
+    clearInterval(timer)
+  }
+
+  oBox.onmouseleave = function(){
+    move()
+  }
+</script>
