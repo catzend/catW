@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #box {
+      width: 200px;
+      height: 1300px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div id="box"></div>
+</body>
+<script src="./mytool.js"></script>
+<script>
+  // var oBox = document.getElementById("box");
+  // var docBody = document.body;
+  // var e = mytool.getEvent(event);
+  // console.log(e);
+  // mytool.addHandler(docBody, "click", function () {
+  //   console.log(mytool.getPagePosition(e).pageX);
+  //   console.log(mytool.getPagePosition(e).pageY);
+  // });
+  // console.log(mytool.plat_is_mobile());
+  window.onscroll =function(){
+    console.log(mytool.scroll().top);
+  }
+  console.log(mytool.client());
+</script>
+</html>

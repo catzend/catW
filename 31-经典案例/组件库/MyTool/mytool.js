@@ -1,5 +1,5 @@
-var eventUntil = {
-  // 绑定事件
+var mytool = {
+  // 1.绑定事件
   addHandler: (element, type, handler) => {
     if (element.addEventListener) {
       element.addEventListener(type, handler, false);
@@ -9,7 +9,7 @@ var eventUntil = {
       element["on" + type] = handler;
     }
   },
-  // 取消绑定事件
+  // 2.取消绑定事件
   removeHandler: (element, type, handler) => {
     if (element.removeEventListener) {
       element.removeEventListener(type, handler);
@@ -20,7 +20,7 @@ var eventUntil = {
       element['on' + type] = null;
     }
   },
-  // 跨浏览器添加事件
+  // 3.跨浏览器添加事件
   addEvent: function (obj, type, fn) {
     if (obj.addEventListener) {
       obj.addEventListener(type, fn, false);
@@ -28,7 +28,7 @@ var eventUntil = {
       obj.attchEvent('on' + type, fn);
     }
   },
-  // 跨浏览器移除事件
+  // 4.跨浏览器移除事件
   removeEvent: function (obj, type, fn) {
     if (obj.removeEventListener) {
       obj.removeEventListener(type, fn, false);
@@ -36,15 +36,15 @@ var eventUntil = {
       obj.detachEvent('on' + type, fn);
     }
   },
-  //使用这个方法跨浏览器取得event对象
+  //5.使用这个方法跨浏览器取得event对象
   getEvent: (event) => {
     return event ? event : window.event;
   },
-  // 跨浏览器获取目标对象
+  // 6.跨浏览器获取目标对象
   getTarget: (event) => {
     return event.target || event.srcElement;
   },
-  // 跨浏览器阻止默认行为
+  // 7.跨浏览器阻止默认行为
   preventDefault: (event) => {
     if (event.preventDefault) {
       event.preventDefault();
@@ -52,6 +52,7 @@ var eventUntil = {
       event.returnValue = false;
     }
   },
+  // 8.阻止了事件冒泡，但不会阻击默认行为
   stopPropagation: (event) => {
     if (event.stopPropagation) {
       event.stopPropagation();
@@ -63,55 +64,87 @@ var eventUntil = {
 
   // 跨浏览器获取滚动条位置
   //跨浏览器获取滚动条位置，sp == scroll position
-  // getSP: function () {
-  //     return {
-  //         top = document.documentElement.scrollTop || document.body.scrollTop,
-  //         left = document.documentElement.scrollLeft || document.body.scrollLeft
-  //     }
-  // },
-  getTop: function () {
-    return document.documentElement.scrollTop || document.body.scrollTop
+  /**
+   * 返回网页被卷去的高、网页被卷去的左
+   * @returns {{top: *, left: *}} top：被卷去的高 left：被卷去的左
+   */
+  scroll: function () {
+    if (window.pageYOffset !== null) { // 最新的浏览器
+      return {
+        "top": window.pageYOffset,
+        "left": window.pageXOffset
+      }
+    } else if (document.compatMode === 'CSS1Compat') { // W3C
+      return {
+        "top": document.documentElement.scrollTop,
+        "left": document.documentElement.scrollLeft
+      }
+    }
+    return {
+      "top": document.body.scrollTop,
+      "left": document.body.scrollLeft
+    }
   },
-  getLeft: function () {
-    return document.documentElement.scrollLeft || document.body.scrollLeft
+  /**
+    * 返回当前界面宽度和高度
+    * @returns {{width: *, height: *}} width：当前界面宽度 height：当前界面高度
+    */
+  client: function () {
+    if (window.innerWidth !== null) { // 最新的浏览器
+      return {
+        "width": window.innerWidth,
+        "height": window.innerHeight
+      }
+    } else if (document.compatMode === 'CSS1Compat') { // W3C
+      return {
+        "width": document.documentElement.clientWidth,
+        "height": document.documentElement.clientHeight
+      }
+    }
+    return {
+      "width": document.body.clientWidth,
+      "height": document.body.clientHeight
+    }
   },
   // 返回当前元素的上边界到它的包含元素的上边界的偏移量：obj.offset().top（在元素的包含元素含滚动条的情况下）
   // 返回当前元素的左边界到它的包含元素的左边界的偏移量：obj.offset().left（在元素的包含元素含滚动条的情况下）
-  getOffTop: function (obj) {
-    return obj.offset().top;
-  },
-  getOffLeft: function (obj) {
-    return obj.offset().left;
+  getOff: function (obj) {
+    var top = obj.offset().top;
+    var left = obj.offset().left;
+    return {
+      top: top,
+      left: left
+    }
   },
   // e.scrrenX,e.scrent.Y表示鼠标距离屏幕的距离
   getScreeX: function (event) {
-   return e.scrrenX;
+    return e.scrrenX;
   },
   getScreeY: function (event) {
     return e.screntY;
   },
-    // 获取鼠标相对于文档的位置,即页面坐标位置
-    getPagePosition: function (event) {
-      var pageX = event.pageX,
-        pageY = event.pageY;
-      if (pageX == undefined) {
-        pageX = event.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft);
-      }
-      if (pageY == undefined) {
-        pageY = event.clientY + (document.body.scrollTop || document.documentElement.scrollTop);
-      }
-      return {
-        pageX: pageX,
-        pageY: pageY
-      };
-    },
-    // e.offsetX,e.offsetY表示鼠标点击位置距离事件源对象的位置
-    getOffsetX: function (event) {
-      return e.offsetX;
-     },
-     getOffsetX: function (event) {
-       return e.offsetY;
-     },
+  // 获取鼠标相对于文档的位置,即页面坐标位置
+  getPagePosition: function (event) {
+    var pageX = event.pageX,
+      pageY = event.pageY;
+    if (pageX == undefined) {
+      pageX = event.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft);
+    }
+    if (pageY == undefined) {
+      pageY = event.clientY + (document.body.scrollTop || document.documentElement.scrollTop);
+    }
+    return {
+      pageX: pageX,
+      pageY: pageY
+    };
+  },
+  // e.offsetX,e.offsetY表示鼠标点击位置距离事件源对象的位置
+  getOffsetX: function (event) {
+    return e.offsetX;
+  },
+  getOffsetX: function (event) {
+    return e.offsetY;
+  },
   // 获取浏览器显示区域（可视区域）的高度 ：
   // $(window).height();
   // 获取浏览器显示区域（可视区域）的宽度 ：
@@ -158,7 +191,8 @@ var eventUntil = {
       return -event.detail * 40;
     }
   },
-  getCharCode: function (event) { //以跨浏览器取得相同的字符编码，需在keypress事件中使用
+  //以跨浏览器取得相同的字符编码，需在keypress事件中使用
+  getCharCode: function (event) {
     if (typeof event.charCode == "number") {
       return event.charCode;
     } else {
@@ -281,20 +315,195 @@ var eventUntil = {
       }
     }
     return parts.join("&");
+  },
+  // 获取url地址？后面的具体参数值
+  GetArgsFromHref: function (sArgName) {
+    var sHref = top.location.href;
+    var args = sHref.split("?");
+    var retval = "";
+    if (args[0] == sHref) {
+      return retval;
+    }
+    var str = args[1];
+    args = str.split("&");
+    for (var i = 0; i < args.length; i++) {
+      str = args[i];
+      var arg = str.split("=");
+      if (arg.length <= 1) continue;
+      if (arg[0] == sArgName) retval = arg[1];
+    }
+    return retval;
+  },
+
+  /**
+    * 检查obj元素是否的类名中是否有cs
+    * @param {Element}obj
+    * @param {string}cs
+    * @returns {boolean} true有 false无
+    */
+  hasClassName: function (obj, cs) {
+    var reg = new RegExp('\\b' + cs + '\\b');
+    return reg.test(obj.className);
+  },
+
+  /**
+   * 为obj添加类名cs
+   * @param {Element}obj
+   * @param {string}cs
+   */
+  addClassName: function (obj, cs) {
+    if (!this.hasClassName(obj, cs)) {
+      obj.className += ' ' + cs;
+    }
+  },
+
+  /**
+   * 移除所有 obj的cs类：
+   * @param {Element}obj
+   * @param {string}cs
+   */
+  removeClassName: function (obj, cs) {
+    var reg = new RegExp('\\b' + cs + '\\b');
+    // 删除class
+    obj.className = obj.className.replace(reg, '');
+  },
+
+  /**
+   * 对设置和移除obj元素的cs类进行切换：
+   * @param {Element}obj
+   * @param {string}cs
+   */
+  toggleClassName: function (obj, cs) {
+    if (this.hasClassName(obj, cs)) {
+      // 有， 删除
+      this.removeClassName(obj, cs);
+    } else {
+      // 没有，则添加
+      this.addClassName(obj, cs);
+    }
+  },
+
+  /**
+   * 控制元素是否显示
+   * @param {Element}ele 元素节点
+   */
+  hide: function (ele) {
+    ele.style.display = 'none'
+  },
+  show: function (ele) {
+    ele.style.display = 'block'
+  },
+
+  /**
+   * 获得某个元素的某个CSS属性
+   * @param {Element}obj
+   * @param {string}attr
+   * @returns {string}
+   */
+  getCSSAttr: function (obj, attr) {
+    if (obj.currentStyle) { // IE 和 opera
+      return obj.currentStyle[attr];
+    } else {
+      return window.getComputedStyle(obj, null)[attr];
+    }
+  },
+
+  /**
+   * 更改某个元素的某个CSS属性
+   * @param {Element}eleObj
+   * @param {string}attr
+   * @param {string | number}value
+   */
+  setCssAttr: function (eleObj, attr, value) {
+    eleObj.style[attr] = value;
+  },
+  /**
+   * 传入总秒数返回对应小时、分钟以及秒数
+   * @param second 总秒数
+   * @returns {{min: number , hour: number, second: number}}
+   */
+  secondToHourMinSecond: function (second) {
+    return {
+      "hour": Math.floor(second / (60 * 60)),
+      "min": Math.floor(second % (60 * 60) / 60),
+      "second": Math.floor(second % 60)
+    }
+  },
+  // 毫秒格式化时间
+  getLocalTime: function (time) {
+    var datetime = new Date();
+    datetime.setTime(time);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    var hour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();
+    var minute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
+    var second = datetime.getSeconds() < 10 ? "0" + datetime.getSeconds() : datetime.getSeconds();
+    return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+  },
+  /**
+   * 传入一个数字，如果是一位数字，前面补0.如果是两位，返回原值。
+   * @param {number}num
+   * @returns {number}
+   */
+  addZero: function (num) {
+    return num < 10 ? '0' + num : num;
+  },
+
+  /**
+   * 获取字符串真实长度，目前仅针对中文和英文字符串
+   * @param {string}str
+   * @returns {number}
+   */
+  getStrLength: function (str) {
+    var len = 0, code = 0;
+    for (var i = 0; i < str.length; i++) {
+      code = str.charCodeAt(i);
+      if (code >= 0 && code <= 127) {
+        len += 1;
+      } else {
+        len += 2;
+      }
+    }
+    return len;
+  },
+  // 判断是否是手机
+  plat_is_mobile: function () {
+    var sUserAgent = navigator.userAgent.toLowerCase();
+    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid = sUserAgent.match(/android/i) == "android";
+    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+    if (bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  // 判断是否是微信
+  isWeiXin: function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+      return true;
+    } else {
+      return false;
+    }
+  },
+  //前端手机px、rem尺寸转换js代码
+  mobile: function () {
+    var size = 100, //规定rem与px之间值的转换
+      maxWidth = 750; //设置基准宽度。
+    ratio = function () {
+      var r = document.documentElement.clientWidth / maxWidth;
+      return r >= 1 ? 1 : r <= 0.234 ? 0.234 : r;
+    };
+    set = function () {
+      document.documentElement.style.fontSize = ratio() * size + 'px';
+    }();
+    window.onresize = mobile;
   }
-
-
-
-};
-document.body.onscroll = function () {
-  e = eventUntil.getEvent(e);
-  // console.log(document.body.scrollTop);
-  // console.log(document.documentElement.scrollTop);
-  console.log(eventUntil.getTop())
-}
-document.body.onmousedown = function () {
-  e = eventUntil.getEvent(e);
-  console.log(eventUntil.getPagePosition(e));
-  console.log(eventUntil.getPagePosition(e).pageY)
-
 }
