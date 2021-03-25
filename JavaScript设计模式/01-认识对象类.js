@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2021-03-23 16:17:56
- * @LastEditTime: 2021-03-24 16:26:47
- * @LastEditors: your name
+ * @LastEditTime: 2021-03-24 23:00:04
+ * @LastEditors: catzend
  * @Description: In User Settings Edit
  * @FilePath: \catW\JavaScript设计模式\01-认识对象类.js
  */
@@ -56,6 +56,7 @@ MyObj.prototype = {
 var My = new MObj();
 My.checkName().checkEmail().checkPassword();
 // 方法二
+
 var CheckObj = {
   checkName: function () { return this },
   checkEmail: function () { return this },
@@ -63,3 +64,5 @@ var CheckObj = {
 };
 var a = new CheckObj();
 a.checkName().checkEmail().checkPassword();
+
+console.log(object);

@@ -1,0 +1,71 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+.box
+{
+    overflow: hidden;
+
+    position: relative;
+
+    margin: 100px auto;
+    border: 1px solid #ccc;
+    width: 650px;
+    height: 360px;
+}
+.box ul
+{
+    list-style: none;
+
+    position: relative;
+    left: 0;
+
+    width: 5000px;
+
+    -webkit-transition: left .5s ease 0 ;
+       -moz-transition: left .5s ease 0 ;
+        -ms-transition: left .5s ease 0 ;
+         -o-transition: left .5s ease 0 ;
+            transition: left .5s ease 0 ;
+}
+.box ul li
+{
+    float: left;
+}
+.box .left-btn,
+.box .right-btn
+{
+    position: absolute;
+    top: 50%;
+
+    margin-top: -25px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+            border-radius: 50%;
+    width: 50px;
+    height: 50px;
+
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+
+    color: white;
+    background-color: rgba(0, 0, 0, .5);
+
+        -ms-border-radius: 50%;
+         -o-border-radius: 50%;
+}
+.box .left-btn
+{
+    left: 0;
+}
+.box .right-btn
+{
+    right: 0;
+}
+.box > a:hover
+{
+    background-color: rgba(0, 0, 0, .8);
+}

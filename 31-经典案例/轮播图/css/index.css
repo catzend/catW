@@ -1,0 +1,31 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+.box
+{
+    overflow: hidden;
+
+    margin: 100px auto;
+    border: 1px solid #ccc;
+    width: 1000px;
+    height: 130px;
+}
+
+.box ul
+{
+    list-style: none;
+
+    position: relative;
+    left: 0;
+
+    width: 5000px;
+}
+.box ul li
+{
+    float: left;
+
+    margin-right: 10px;
+}
