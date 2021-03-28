@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数也是数据</title>
+</head>
+<body>
+    <ol>
+        <li>函数也是数据</li>
+        <li>JavaScript中的函数也是一种数据类型,只不过这种特殊类型有两个重要的特性</li>
+        <li>他们所包含的是代码</li>
+        <li>他们是可以执行的</li>
+    </ol>
+</body>
+</html>
+<script>
+    var  test = function(a,b){
+        return a+b;
+    }
+    alert(typeof test);
+    alert(test(1,2));
+    // 作为数据进行赋值给其他变量
+    var test1 = test;
+    console.log(test1(2,3));
+    // 匿名函数
+    // 函数需要为一个函数表达式。
+    // 直接匿名函数会报错: SyntaxError: function statement requires a name
+    return function (x,y) { return x*y  }
+</script>
