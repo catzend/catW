@@ -7,117 +7,98 @@
   <title>楼层导航</title>
   <style>
     * {
-      margin: 0;
       padding: 0;
-    }
-
-    .floornav {
-      position: fixed;
-      bottom: 200px;
-      right: 50px;
-    }
-
-    .floornav ul {
+      margin: 0;
       list-style: none;
     }
 
-    .floornav ul li {
-      border: 1px solid #ccc;
-      width: 100px;
-      height: 30px;
-      line-height: 30px;
+    .floor {
+      position: relative;
+      top: 0;
+    }
+
+    .floor>div {
+      height: 900px;
+      line-height: 900px;
       text-align: center;
-      background-color: darksalmon;
+      color: #fff;
+      font-size: 40px;
+    }
+
+    .floorNav {
+      width: 40px;
+      height: 200px;
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      background: #ddd;
+    }
+
+    .floorNav>li {
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      color: #fff;
       cursor: pointer;
     }
 
-    .floornav ul li.current {
-      background-color: blueviolet;
-    }
-
-    .content-part {
-      width: 75%;
-      margin: 0px auto;
-      margin-bottom: 30px;
-      border: 1px solid #ccc;
+    .active {
+      background: #e4393c;
+      color: #fff;
     }
   </style>
 </head>
 <body>
-  <nav class="floornav">
-    <ul id="list">
-      <li data-n="科技" class="current">科技</li>
-      <li data-n="体育">体育</li>
-      <li data-n="新闻">新闻</li>
-      <li data-n="娱乐">娱乐</li>
-      <li data-n="视频">视频</li>
-    </ul>
-  </nav>
-  <section class="content-part" style="height:674px;" data-n="科技">
-    科技栏目
-  </section>
-
-  <section class="content-part" style="height:567px;" data-n="体育">
-    体育栏目
-  </section>
-
-  <section class="content-part" style="height:739px;" data-n="新闻">
-    新闻栏目
-  </section>
-
-  <section class="content-part" style="height:574px;" data-n="娱乐">
-    娱乐栏目
-  </section>
-
-  <section class="content-part" style="height:1294px;" data-n="视频">
-    视频栏目
-  </section>
+  <div class="floor" id="floor">
+    <div style="background: #ffb6b9">壹</div>
+    <div style="background: #fae3d9">贰</div>
+    <div style="background: #bbded6">叁</div>
+    <div style="background: #8ac6d1">肆</div>
+    <div style="background: #fff1ac">伍</div>
+  </div>
+  <ul class="floorNav">
+    <li>壹</li>
+    <li>贰</li>
+    <li>叁</li>
+    <li>肆</li>
+    <li>伍</li>
+  </ul>
 
 </body>
 </html>
 <script>
-  window.addEventListener("load", function () {
-    // 使用事件委托
-    var oUl = document.getElementById("list");
-    var contents = document.querySelectorAll(".content-part");
-    var lists = oUl.querySelectorAll("li");
-    // 事件委托点击事件
-    // oUl.onclick = function () {
-    //   var e = window.event || event;
-
-    // }
-    var result = [];
-    colotArr = ["blue", "aqua", "darksalmon", "darkorange", "green"]
-    for (var i = 0; i < contents.length; i++) {
-      result.push(contents[i].offsetTop);
-      contents[i].style.backgroundColor = colotArr[i]
-    }
-    result.push(Infinity);
-    var num = 0;
-    window.onscroll = function () {
-      var scrollTop = document.documentElement.scrollTop;
-      for (var i = 0; i < result.length; i++) {
-        if (result[i] <= scrollTop && result[i + 1] > scrollTop) {
-          lists[i].className = "current";
-          num = i;
-        } else {
-          lists[i].className = " ";
-        }
-      }
-    }
-    for (let i = 0; i < lists.length; i++) {
-      (function(i){
-        lists[i].onclick = function () {
-        // lists[i].className = "current";
-        for (var j=0; j<lists.length; j++){
-          lists[j].className='';
-        }
-        this.className="current";
-        console.log(i);
-        document.documentElement.scrollTop = result[i];
-      }
-      })(i)
+  var fl = document.getElementById("floor");
+  //获取楼层
+  let floors = document.querySelectorAll(".floor>div");
+  //获取楼层导航
+  let floorNavs = document.querySelectorAll(".floorNav>li");
+  floorNavs[0].className = "active";
+  //滚动监听
+  window.onscroll = function () {
+    //获取滚动条高度，兼容ie
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    //符合点亮条件的楼层索引
+    let activeIndex;
+    //楼层导航图标点亮控制
+    floors.forEach((floor, index) => {
+      //检查各楼层顶端距离视窗顶端距离，如果满足条件则修改楼层图标
+      floor.offsetTop - 100 <= scrollTop ? activeIndex = index : null;
+    });
+    //根据索引数设置楼层样式
+    floorNavs.forEach((nav, index) => {
+      index === activeIndex ? nav.classList.add('active') : nav.classList.remove('active');
+    });
+  };
+  for (let i = 0; i < floorNavs.length; i++) {
+    floorNavs[i].onclick = function () {
+      var top = floors[i].offsetTop;
+      window.scrollTo({
+        top: top, //设置滚动的距离
+        behavior: 'smooth'
+      })
     }
 
-  })
+  }
 </script>
