@@ -1,0 +1,622 @@
+/* 1、清除浮动 */
+
+/* 主要为子元素浮动（float）之后，父元素无法撑起高度和宽度。 */
+
+/*
+<div class="clear">
+    <img src="demo.gif">
+</div> */
+
+/*  */
+img {
+    float: left;
+}
+/*清除浮动  */
+.clear::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+/* 2、文字少时居中，多时靠左 */
+/*
+<div class="box">
+    <p class="content"></p>
+</div> */
+.box {
+    text-align: center;
+}
+.content {
+    display: inline-block;
+    text-align: left;
+}
+
+/* 3、凹凸人 */
+
+/* <div class='ao'></div> */
+
+.ao {
+    display: inline-block;
+    width: 0;
+}
+.ao::before {
+    content: 'love 你 love';
+    outline: 2px solid #000;
+    color: #fff;
+}
+
+/* 4、让padding，border不影响盒模型的大小 */
+/*
+比如说width <content + padding会怎样？实际上当padding + border> width时，元素的渲染大小（Chrome下）为padding + border；而padding + border <width时，允许剩余空间分配给content。 */
+
+/* <div></div> */
+
+div {
+    box-sizing: border-box;
+}
+
+/* 5、优雅的图片未加载或加载失败效果
+
+图片显示完成后，img会成为“替换元素”，而替换元素是无法设置伪元素的，因为内容被图片替换掉了；还需要注意attr里面的变量不能加双引号。 */
+
+/* <div>
+    <img src="demo.gif" alt="lululu">
+</div> */
+
+div {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+img {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+img::after {
+    /* / 生成 alt 信息 / */
+    content: attr(alt);
+    /* / 尺寸和定位 / */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* / 颜色 / */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* / alt 信息隐藏 / */
+    transform: translateY(100%);
+    /* / 过渡动画效果 / */
+    transition: transform 0.2s;
+}
+img:hover::after {
+    /* / alt 信息显示 / */
+    transform: translateY(0);
+}
+
+/* 6、CSS的悬浮图片替换效果 */
+
+/* 需要注意的是，如果快捷保存图片，保存的是src内的图片，而不是替换之后的。 */
+
+/* <img src="demo.gif"> */
+img:hover {
+    content: url(amazing.gif);
+}
+
+/* 7、扩大点击区域 */
+
+/* <a href="">demo</a> */
+
+/* <!-- CSS1 --> */
+
+a {
+    padding: 20px 0;
+}
+
+/* <!-- CSS2 --> */
+
+a {
+    border: 11px solid transparent;
+}
+
+/* 8、不使用伪元素的“三道杠”和“圆点”效果 */
+
+/* <i class="icon"></i> */
+/* <!-- CSS三道杠 --> */
+
+.icon {
+    display: inline-block;
+    width: 140px;
+    height: 10px;
+    padding: 35px 0;
+    border-top: 10px solid;
+    border-bottom: 10px solid;
+    background-color: currentColor;
+    background-clip: content-box;
+}
+
+/* <!-- CSS三道杠2 --> */
+
+.icon {
+    width: 120px;
+    height: 20px;
+    border-top: 60px double;
+    border-bottom: 20px solid;
+}
+
+/* <!-- CSS圆点 --> */
+
+.icon {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    padding: 10px;
+    border: 10px solid;
+    border-radius: 50%;
+    background-color: currentColor;
+    background-clip: content-box;
+}
+
+/* 9、导航栏消除右边多余的尺寸 */
+/* <div>
+    <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div> */
+div {
+    width: 380px;
+}
+ul {
+    margin-right: -20px;
+}
+ul > li {
+    float: left;
+    width: 100px;
+    margin-right: 20px;
+}
+
+/* 10、高兼容的多栏等高 */
+
+/* 注意container高度不能是确定值，缺点是如果在内部使用锚点定位会出现问题。 */
+
+/* <div class="container">
+    <div id="colLeft" class="column-left">
+        <h4>正方观点</h4>
+        <p>观点1</p>
+        <p>观点1</p>
+    </div>
+    <div id="colRight" class="column-right">
+        <h4>反方观点</h4>
+        <p>观点1</p>
+    </div>
+</div> */
+
+.container {
+    overflow: hidden;
+}
+.column-left,
+.column-right {
+    margin-bottom: -9999px;
+    padding-bottom: 9999px;
+    width: 50%;
+    float: left;
+}
+.column-left {
+    background-color: #34538b;
+}
+.column-right {
+    background-color: #cd0000;
+}
+
+/* 11、高兼容双栏，一边等宽一边自适应，等高布局
+
+缺点是边框不支持百分比，最多2-3栏。 */
+
+/* <div class="box">
+    <nav>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+    </nav>
+    <section>
+        <div>1234</div>
+    </section>
+</div> */
+
+.box {
+    border-left: 150px solid #333;
+    background-color: #f0f3f9;
+}
+.box::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.box > nav {
+    width: 150px;
+    margin-left: -150px;
+    float: left;
+}
+.box > section {
+    overflow: hidden;
+}
+/*
+12、永远居中的弹框
+
+特点是内容和浏览器尺寸变化都是自动变换大小和位置，可以通过伪元素的高度控制上下位置。 */
+
+/*
+<div class="container">
+    <div class="dialog">demo</dialog>
+</div> */
+
+.container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 0;
+    white-space: nowrap;
+    overflow: auto;
+}
+.container::after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+.dialog {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+    font-size: 14px;
+    white-space: normal;
+    /* / 弹框样式 / */
+    padding: 10px 14px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    background: #fff;
+}
+
+/* 13、文字环绕图片
+
+float的真正用途。 */
+
+/* <div class="box">
+    <div>
+        <img src="demo.gif">
+    </div>
+    <p>demo，demo，demo，demo，demo，demo，demo</p>
+</div> */
+.box {
+    width: 100px;
+}
+img {
+    float: left;
+    width: 40px;
+    height: 40px;
+}
+
+/* 14、通过标签实现的选项卡效果
+
+与锚点不同的是不会触发由内到外（多层滚动造成的某种事件冒泡的效果）的页面跳动（元素上边与分段上边对齐），还支持Tab选项的效果；缺点是需要js支持效果。 */
+
+/* <div class="box">
+    <div class="list"><input id="one">1</div>
+    <div class="list"><input id="two">2</div>
+    <div class="list"><input id="three">3</div>
+    <div class="list"><input id="four">4</div>
+</div>
+<div class="link">
+    <label class="click" for="one">1</label>
+    <label class="click" for="two">2</label>
+    <label class="click" for="three">3</label>
+    <label class="click" for="four">4</label>
+</div> */
+
+.box {
+    height: 10em;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+.list {
+    height: 100%;
+    background: #ddd;
+    position: relative;
+}
+.list > input {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* 15、margin：自动水平垂直居中 */
+
+/* <div></div> */
+
+div {
+    width: 300px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+/* 16、纸张卷边阴影
+
+主要利用“位置：相对； z-index：0；”创建并合并到z-index的负值将阴影放置在“ contaniner”和“ page”之间。
+
+你可以尝试将关键CSS去掉查看效果。 */
+
+/* <div class="container">
+    <div class="page">
+        <h4>demo</h4>
+        <p>demo</p>
+    </div>
+</div> */
+
+.container {
+    background-color: #666;
+    height: 1000px;
+    /* / 创建层叠上下文，关键 / */
+    position: relative;
+    z-index: 0;
+}
+.page {
+    width: 600px;
+    background-color: #f4f39e;
+    background: linear-gradient(to bottom, #f4f39e, #f5da41 60%, #fe6);
+    box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 1px 0 #f6ef97;
+    position: relative;
+    left: 200px;
+    top: 200px;
+}
+.page:before {
+    transform: skew(-15deg) rotate(-5deg);
+    transform-origin: left bottom;
+    left: 0;
+}
+.page:after {
+    transform: skew(15deg) rotate(5deg);
+    transform-origin: right bottom;
+    right: 0;
+}
+/* / 边角卷边阴影 / */
+.page:before,
+.page:after {
+    width: 90%;
+    height: 20%;
+    content: '';
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+}
+
+/* 17、自动将输入的小写字母转换大写 */
+
+input {
+    text-transform: uppercase;
+}
+
+/* 18、头像裁剪矩形镂空效果 */
+/* <div class="crop">
+    <div id="cropArea" class="crop-area"></div>
+    <img src="demo.gif">
+</div> */
+.crop {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+.crop > .crop-area {
+    position: absolute;
+    top: 0;
+    height: 0;
+    width: 80px;
+    height: 80px;
+    outline: 200px solid rgba(0, 0, 0, 0.5);
+    cursor: move;
+}
+
+/* 19、修改水平流到垂直流
+
+兼容到IE7；此应用涉及到一体的东西，所有水平流的特性都可以应用到垂直流中（称为水平居中变成了垂直居中）。 */
+
+.verticle-mode {
+    writing-mode: tb-rl;
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+}
+
+/* 20、超实用超高频使用的:empty 伪类 */
+
+/* <div class="cs-empty"></div> */
+.cs-empty:empty {
+    width: 120px;
+    padding: 20px;
+    border: 10px dashed;
+}
+/* 21.设置input 的placeholder的字体样式 */
+/*  / Chrome/Opera/Safari / */
+input::-webkit-input-placeholder {
+    color: red;
+}
+/*  / Firefox 19+ / */
+input::-moz-placeholder {
+    color: red;
+}
+/* / IE 10+ / */
+input:-ms-input-placeholder {
+    color: red;
+}
+/*  / Firefox 18- / */
+input:-moz-placeholder {
+    color: red;
+}
+/* 设置input聚焦时的样式
+ */
+/* <input type="text" placeholder="请设置用户名"> */
+
+input:focus {
+    background-color: red;
+}
+/* 取消input的边框 */
+
+input {
+    border: none;
+    outline: none;
+}
+/* 22. 单行和多行文本超出省略号
+单行文本出现省略号 */
+div {
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-all;
+}
+/*  多行文本出现省略号 */
+div {
+    /*  /重点，不能用block等其他，将对象作为弹性伸缩盒子模型显示/ */
+    display: -webkit-box;
+    /*  /从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）/ */
+    -webkit-box-orient: vertical;
+    /* /行数，超出三行隐藏且多余的用省略号表示.../ */
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    word-break: break-all;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+/* 23. 负边距使用技巧 */
+div {
+    margin: 0;
+    padding: 0;
+}
+.wrap {
+    /* / 利用负值技巧进行整体移动 / */
+    margin-left: -6px;
+}
+.item {
+    float: left;
+    width: 20%;
+    height: 300px;
+    border-left: 6px solid #fff;
+    box-sizing: border-box;
+}
+/* <div class="wrap">
+    <div class="item" style="background-color: red;"></div>
+    <div class="item" style="background-color: green;"></div>
+    <div class="item" style="background-color: yellow;"></div>
+    <div class="item" style="background-color: pink;"></div>
+    <div class="item" style="background-color: green;"></div>
+</div> */
+/* 24. 卡券效果制作 */
+.coupon {
+    width: 300px;
+    height: 100px;
+    line-height: 100px;
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+    background: radial-gradient(circle at right bottom, transparent 10px, #ffffff 0) top right / 50%
+            51px no-repeat,
+        radial-gradient(circle at left bottom, transparent 10px, #ffffff 0) top left / 50% 51px
+            no-repeat,
+        radial-gradient(circle at right top, transparent 10px, #ffffff 0) bottom right / 50% 51px
+            no-repeat,
+        radial-gradient(circle at left top, transparent 10px, #ffffff 0) bottom left / 50% 51px
+            no-repeat;
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2));
+}
+.coupon span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    color: red;
+    font-size: 50px;
+    font-weight: 400;
+}
+
+/* <p class="coupon">
+ <span>200</span>优惠券
+</p> */
+/* 25.灰色滤镜做样式的disable
+灰色图可以直接加滤镜，不用切多一张图。如图 */
+
+.coupon_style .disable {
+    -webkit-filter: grayscale(1);
+}
+/* 26.曲线阴影的实现
+多个阴影重叠，就是正常阴影+曲线阴影
+正常情况下，有个矩形有正常的阴影，作为主投影，这时候再定义一个有一定弧度圆角的圆角矩形，然后放在正常矩形的下面，并露出一点点底部有弧度的阴影，这样的话就可以形成曲线投影的效果。``` */
+
+.effect:after,
+.effect:before {
+    content: '';
+    background-color: #f00;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    bottom: 0;
+    left: 10px;
+    right: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    border-radius: 100px/10px;
+}
+/* 27.继承 box-sizing
+从 html 元素继承box-sizing ： */
+
+html {
+    box-sizing: border-box;
+}
+::before,
+::after {
+    box-sizing: inherit;
+}
+/* 28.为 body 元素添加行高
+不必为每一个 <p>，<h>元素逐一添加 line-height，直接添加到 body 元素： */
+
+body {
+    line-height: 1.5;
+}
+/* 文本元素可以很容易地继承 body 的样式。 */
+
+/* 29.创造格子等宽的表格 */
+/* 可以让每个格子保持等宽 */
+/* table-layout: fixed; */
+
+calendar {
+    table-layout: fixed;
+}
+/* 30.利用 Flexbox 去除多余的外边距 */
+
+/* 与其使用 nth-， first-，和 last-child 去除列之间多余的间隙，不如使用 flexbox 的 space-between 属性： */
+
+.list {
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.list .person {
+    flex-basis: 23%;
+}
+
+/* 列之间的间隙总是均匀相等  */
